@@ -11,8 +11,13 @@ class ActiveMQListener(stomp.ConnectionListener):
     def on_message(self, message):
         print(f'Received a message: {message}')
         try:
-            message_body = message.body
-            self.messages.append(json.loads(message_body))
+            id_, nombre, dni, url = message.body.split('|')
+            self.messages.append({
+                "ID": id_,
+                "NOMBRE": nombre,
+                "DNI": dni,
+                "URL": url
+            })
         except Exception as e:
             print(f"Error processing message: {e}")
 
