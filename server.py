@@ -13,10 +13,6 @@ conn = stomp.Connection([('localhost', 61613)])
 conn.set_listener('', MyListener())
 conn.connect('admin', 'admin', wait=True)
 
-@app.route('/')
-def home():
-    return "Hello, Flask with ActiveMQ!"
-
 @app.route('/send', methods=['POST'])
 def send_message():
     data = request.get_json()
@@ -31,7 +27,6 @@ def send_message():
     conn.send(body=str(data), destination='/queue/test')
 
     response = {
-        "message": "Message sent to ActiveMQ",
         "data": data
     }
     return jsonify(response), 201
